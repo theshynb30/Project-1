@@ -1,0 +1,54 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: #f4f4f4;
+  padding: 20px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: inline-block;
+  margin: 10px;
+  min-width: 200px;
+}
+
+.status-connected {
+  font-weight: bold;
+  color: green;
+}
+
+.status-connecting {
+  font-weight: bold;
+  color: red;
+}
+
+.online {
+  color: #5cb85c;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  margin: 5px;
+  color: white;
+}
+
+.btn-on {
+  background-color: #5cb85c;
+}
+
+.btn-off {
+  background-color: #d9534f;
+}
+
+.sensor-val {
+  font-size: 24px;
+  font-weight: bold;
+  color: #0275d8;
+}
