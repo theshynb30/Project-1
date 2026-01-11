@@ -8,12 +8,6 @@ import WeeklyTemperatureChart from './components/WeeklyTemperatureChart';
 
 // Kết nối tới backend - tự động phát hiện IP từ window.location
 const getBackendURL = () => {
-  // Nếu đang chạy trên ngrok hoặc production, dùng env variable
-  if (import.meta.env.VITE_BACKEND_URL) {
-    return import.meta.env.VITE_BACKEND_URL;
-  }
-  
-  // Local network
   const protocol = window.location.protocol;
   const hostname = window.location.hostname;
   return `${protocol}//${hostname}:3001`;
@@ -95,7 +89,7 @@ const App = () => {
     };
   }, []);
 
-  // Demo data generator - giảm tần suất để tránh crash khi bật biểu đồ
+  const publishMessage = (topic, message) => {
     socket.emit('publish', { topic, message });
   };
 
@@ -172,14 +166,6 @@ const App = () => {
 
         {/* middle content: alerts, charts, history */}
         <div className="middle-panel">
-          <button
-            className={`debug-toggle ${demoMode ? 'on' : 'off'}`}
-            onClick={() => setDemoMode(!demoMode)}
-            title="Bật/Tắt dữ liệu demo"
-          >
-            {demoMode ? 'Demo dữ liệu: ON' : 'Demo dữ liệu: OFF'}
-          </button>
-
           {gasAlert && (
             <div className="gas-alert-inline">
               <div className="alert-icon">⚠️</div>
@@ -195,6 +181,14 @@ const App = () => {
               <button 
                 className="alert-close-btn"
                 onClick={() => setGasAlert(false)}
+              >
+                Tôi đã biết
+              </button>
+            </div>
+          )}
+
+          {showTempCharts && (
+            <div className="charts-section">
               <div className="chart-tabs">
                 <button
                   className={`chart-tab ${activeChartType === 'minute' ? 'active' : ''}`}
