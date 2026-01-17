@@ -24,9 +24,6 @@ const App = () => {
   const [temp, setTemp] = useState("--")
   const [humi, setHumi] = useState("--")
   const [gas, setGas] = useState("--")
-  const [status, setStatus] = useState("");
-  const [ledOn, setLedOn] = useState(false);
-  const [fanOn, setFanOn] = useState(false);
   const [showTempCharts, setShowTempCharts] = useState(false);
   const [gasAlert, setGasAlert] = useState(false);
   const [showGasHistory, setShowGasHistory] = useState(false);
@@ -64,18 +61,16 @@ const App = () => {
   };
 
   useEffect(() => {
-    // Lắng nghe kết nối
-    const onConnect = () => setStatus("Đã kết nối");
-    const onDisconnect = () => setStatus("Đang kết nối ...");
-
     // Lắng nghe dữ liệu
     const onMqttData = (data) => {
       const { topic, value } = data;
       if (topic.startsWith('sensor/')) {
         handleMqttData(data);
-      } else if (topic === 'device/led/state') setLedOn(value === 'ON');
-      else if (topic === 'device/fan/state') setFanOn(value === 'ON');
+      }
     };
+
+    const onConnect = () => console.log('Socket connected');
+    const onDisconnect = () => console.log('Socket disconnected');
 
     socket.on('connect', onConnect);
     socket.on('disconnect', onDisconnect);
@@ -88,10 +83,6 @@ const App = () => {
       socket.off('mqttData', onMqttData);
     };
   }, []);
-
-  const publishMessage = (topic, message) => {
-    socket.emit('publish', { topic, message });
-  };
 
   const playAlertSound = () => {
     try {
@@ -118,17 +109,6 @@ const App = () => {
     } catch (error) {
       console.error('Error playing alert sound:', error);
     }
-  };
-
-  const toggleLed = () => {
-    const next = !ledOn;
-    setLedOn(next);
-    publishMessage('device/led', next ? 'ON' : 'OFF');
-  };
-  const toggleFan = () => {
-    const next = !fanOn;
-    setFanOn(next);
-    publishMessage('device/fan', next ? 'ON' : 'OFF');
   };
 
   return (
@@ -244,48 +224,6 @@ const App = () => {
           )}
         </div>
 
-        {/* controls on the right side, vertical */}
-        <div className="controls-right">
-          <div className="card control">
-            <h3>Điều khiển Đèn</h3>
-            <button
-              type="button"
-              className={`control-btn ${ledOn ? 'on' : 'off'}`}
-              onClick={toggleLed}
-              aria-pressed={ledOn}
-              aria-label={ledOn ? 'Tắt đèn' : 'Bật đèn'}
-            >
-              <span className="btn-content">
-                <span className={`btn-indicator ${ledOn ? 'on' : 'off'}`} aria-hidden="true" />
-                <svg className="btn-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                  <path d="M12 2v9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"></path>
-                  <path d="M5.2 7.2a7 7 0 1 0 13.6 0" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"></path>
-                </svg>
-                <span className="sr-only">{ledOn ? 'Tắt đèn' : 'Bật đèn'}</span>
-              </span>
-            </button>
-          </div>
-          
-          <div className="card control">
-            <h3>Điều khiển Quạt</h3>
-            <button
-              type="button"
-              className={`control-btn ${fanOn ? 'on' : 'off'}`}
-              onClick={toggleFan}
-              aria-pressed={fanOn}
-              aria-label={fanOn ? 'Tắt quạt' : 'Bật quạt'}
-            >
-              <span className="btn-content">
-                <span className={`btn-indicator ${fanOn ? 'on' : 'off'}`} aria-hidden="true" />
-                <svg className="btn-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                  <path d="M12 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" fill="currentColor"></path>
-                  <path d="M12 2v2M12 20v2M4 12h2M18 12h2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"></path>
-                </svg>
-                <span className="sr-only">{fanOn ? 'Tắt quạt' : 'Bật quạt'}</span>
-              </span>
-            </button>
-          </div>
-        </div>
       </div>
     </div>
   );

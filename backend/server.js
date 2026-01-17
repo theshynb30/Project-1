@@ -24,8 +24,7 @@ const io = new Server(server, {
 });
 
 
-const sub_topic = ['sensor/temp', 'sensor/humi', 'sensor/gas', 'status/led', 'status/fan']
-const pub_topic = ['device/led', 'device/fan']
+const sub_topic = ['sensor/temp', 'sensor/humi', 'sensor/gas'];
 
 const mqttClient = mqtt.connect(
     `mqtts://${process.env.MQTT_HOST}:${process.env.MQTT_PORT}`,
@@ -114,23 +113,6 @@ setInterval(() => {
 // Thay vì io.on('publish', ...), hãy dùng:
 io.on('connection', (socket) => {
     console.log(`Client connected: ${socket.id}`);
-
-    // Lắng nghe sự kiện 'publish' từ chính socket vừa kết nối
-    socket.on('publish', (data) => {
-        const { topic, message } = data; // React gửi object {topic, message}
-
-        if (pub_topic.includes(topic)) {
-            mqttClient.publish(topic, message, { qos: 1 }, (err) => {
-                if (err) {
-                    console.error("Publish error:", err);
-                } else {
-                    console.log(`Successfully published to ${topic}: ${message}`);
-                }
-            });
-        } else {
-            console.warn(`Topic ${topic} không nằm trong danh sách pub_topic`);
-        }
-    });
 
     socket.on('disconnect', () => {
         console.log('Client disconnected');

@@ -17,10 +17,11 @@
 	position: relative;
 	z-index: 1;
 	width: 100%;
-	display: flex;
-	gap: 2rem;
-	align-items: flex-start;
-	justify-content: center;
+	display: grid;
+	grid-template-columns: minmax(320px, 420px) 1fr;
+	gap: 0.75rem;
+	align-items: start;
+	justify-content: flex-start;
 }
 
 .middle-panel {
@@ -28,8 +29,8 @@
 	display: flex;
 	flex-direction: column;
 	gap: 1.5rem;
-	align-items: center;
-	max-width: 960px;
+	align-items: stretch;
+	max-width: 100%;
 }
 
 /* decorative soft shapes */
@@ -238,130 +239,12 @@ h2 {
 	transform: scale(0.95);
 }
 
-/* control module button (green = on, red = off) */
-.controls-right {
-	display: flex;
-	flex-direction: column;
-	gap: 2rem;
-	align-items: center;
-	position: sticky;
-	top: 100px;
-	width: 220px;
-	flex-shrink: 0;
-}
-
-.card.control { 
-	display: flex; 
-	flex-direction: column; 
-	align-items: center; 
-	gap: 0.75rem;
-	width: auto;
-	max-width: none;
-	padding: 1.5rem;
-}
-
-.card.control h3 {
-	font-size: 1rem;
-	margin: 0;
-}
-
-.control-btn {
-  position: relative;
-  width: 96px;
-  height: 96px;
-  padding: 0;
-  border-radius: 50%;
-  border: none;
-  color: #fff;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: 0 14px 34px rgba(0,0,0,0.08);
-  transition: transform 140ms ease, box-shadow 160ms ease, background 160ms ease;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  overflow: visible;
-}
-.btn-content {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  position: relative;
-}
-.btn-icon {
-  width: 40px;
-  height: 40px;
-  color: #fff;
-  transition: transform 220ms cubic-bezier(.2,.8,.2,1), opacity 220ms ease;
-}
-
-/* hide visible text label, keep for accessibility */
-.sr-only {
-  position: absolute !important;
-  width: 1px; height: 1px;
-  padding: 0; margin: -1px; overflow: hidden;
-  clip: rect(0,0,0,0); white-space: nowrap; border: 0;
-}
-
-/* indicator placed inside the circle (top-left) */
-.btn-indicator {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  width: 14px; height: 14px;
-  border-radius: 50%;
-  display: inline-block;
-  box-shadow: 0 6px 14px rgba(0,0,0,0.10);
-  transition: background 180ms ease, transform 180ms ease, box-shadow 180ms ease;
-}
-.control-btn.on .btn-indicator {
-  background: linear-gradient(180deg,#8bc34a,#2e7d32);
-  box-shadow: 0 10px 26px rgba(46,125,50,0.16);
-  transform: scale(1.12);
-}
-.control-btn.off .btn-indicator {
-  background: linear-gradient(180deg,#ff8a80,#e53935);
-  box-shadow: 0 10px 26px rgba(229,57,53,0.12);
-  transform: scale(1);
-}
-
-/* state visuals (keep existing green/red backgrounds) */
-.control-btn.on {
-  background: linear-gradient(180deg,#43a047,#2e7d32);
-  box-shadow: 0 20px 44px rgba(46,125,50,0.16);
-}
-.control-btn.off {
-  background: linear-gradient(180deg,#ef5350,#e53935);
-  box-shadow: 0 20px 44px rgba(229,57,53,0.12);
-}
-
-/* focus / active */
-.control-btn:active { transform: translateY(1px) scale(0.99); }
-.control-btn:focus { outline: none; box-shadow: 0 0 0 6px rgba(46,125,50,0.10); }
-
-/* responsive */
-@media (max-width: 420px) {
-  .control-btn { width: 78px; height: 78px; }
-}
-
 /* small screen adjustments */
 @media (max-width: 600px) {
 	.sensors { position: static; margin: 1rem 0; padding-top: 0; transform: none; }
 	.sensor { min-width: 100px; padding: 0.6rem 0.75rem; }
 	.sensor .value { font-size: 1.6rem; }
 }
-
-/* add subtle color glow to icon and focus ring per state */
-.control-btn.on .btn-icon { filter: drop-shadow(0 6px 18px rgba(46,125,50,0.10)); }
-.control-btn.off .btn-icon { filter: drop-shadow(0 6px 18px rgba(229,57,53,0.08)); }
-
-.control-btn.on:focus { box-shadow: 0 0 0 6px rgba(46,125,50,0.10); }
-.control-btn.off:focus { box-shadow: 0 0 0 6px rgba(229,57,53,0.08); }
-
-/* adjust spacing so indicator, icon, label align nicely */
-.btn-content { align-items: center; }
-.btn-indicator { margin-right: 0.6rem; }
 
 /* Charts section */
 .charts-section {
@@ -374,9 +257,9 @@ h2 {
 	gap: 2rem;
 	padding: 0;
 	max-width: 960px;
-	margin-left: auto;
+	margin-left: 0;
 	margin-right: auto;
-	align-items: center;
+	align-items: stretch;
 }
 
 .chart-tabs {
@@ -468,7 +351,7 @@ h2 {
 	animation: slideUp 220ms ease;
 	width: 100%;
 	max-width: 960px;
-	margin: 0 auto;
+	margin: 0 auto 0 0;
 }
 
 @keyframes slideUp {
@@ -558,10 +441,6 @@ h2 {
 	margin: 0 auto;
 	align-items: stretch;
 }
-
-	max-width: 960px;
-	margin-left: auto;
-	margin-right: auto;
 @keyframes slideDown {
 	from {
 		opacity: 0;
@@ -652,19 +531,8 @@ h2 {
 	background: #1b5e20;
 }
 @media (max-width: 1024px) {
-	.main-container {
-		flex-direction: column;
-		align-items: center;
-	}
-
 	.middle-panel {
 		width: 100%;
-	}
-
-	.controls-right {
-		flex-direction: row;
-		position: static;
-		gap: 1rem;
 	}
 
 	.sensors-left {
@@ -747,23 +615,4 @@ h2 {
 		font-size: 0.95rem;
 	}
 
-	.controls-right {
-		flex-direction: row;
-		gap: 1rem;
-		position: static;
-	}
-
-	.card.control {
-		padding: 1rem;
-	}
-
-	.control-btn {
-		width: 80px;
-		height: 80px;
-	}
-
-	.btn-icon {
-		width: 30px;
-		height: 30px;
-	}
 }
